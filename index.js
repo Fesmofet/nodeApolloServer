@@ -15,6 +15,10 @@ const typeDefs = gql`
     books: [Book]
     authors: [Author]
   }
+  
+  type Mutation {
+    addBook(title: String, author: String): Book
+  }
 `;
 
 const books = [
@@ -44,6 +48,13 @@ const resolvers = {
       books: () => books,
       authors: () => authors,
     },
+    Mutation : {
+      addBook: (_, { title, author },) => {
+        console.log(title, author)
+        books.push({ title, author })
+        return { title, author }
+      }
+    }
 };
 
 
