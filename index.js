@@ -64,3 +64,16 @@ server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
 
+// mutation addBook {
+//   addBook(title: "ddfsd", author: "dfd") {
+//     author
+//     title
+//   }
+// }
+
+// query {
+//   books {
+//     title
+//     author
+//   }
+// }
