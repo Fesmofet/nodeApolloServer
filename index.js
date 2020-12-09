@@ -2,6 +2,7 @@ const { ApolloServer, gql } = require('apollo-server');
 
 const typeDefs = gql`
   type Book {
+    id: ID!
     title: String
     author: String
   }
@@ -13,20 +14,23 @@ const typeDefs = gql`
 
   type Query {
     books: [Book]
+    book(id: ID!): Book
     authors: [Author]
   }
   
   type Mutation {
-    addBook(title: String, author: String): Book
+    addBook(title: String, author: String, id: String!): Book
   }
 `;
 
 const books = [
     {
+      id: '1',
       title: 'The Awakening',
       author: 'Kate Chopin',
     },
     {
+      id: '2',
       title: 'City of Glass',
       author: 'Paul Auster',
     },
@@ -46,13 +50,13 @@ const authors = [
 const resolvers = {
     Query: {
       books: () => books,
+      book: (_, { id } ) => books.find((el)=> el.id === id),
       authors: () => authors,
     },
     Mutation : {
-      addBook: (_, { title, author },) => {
-        console.log(title, author)
-        books.push({ title, author })
-        return { title, author }
+      addBook: (_, { title, author, id },) => {
+        books.push({ title, author, id })
+        return { title, author, id }
       }
     }
 };
@@ -73,6 +77,13 @@ server.listen().then(({ url }) => {
 
 // query {
 //   books {
+//     title
+//     author
+//   }
+// }
+
+// query {
+//   book(id: "1" ) {
 //     title
 //     author
 //   }
